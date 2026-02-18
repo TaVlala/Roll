@@ -1,0 +1,10 @@
+{
+    "name": "rickroll-prank",
+    "version": "1.0.0",
+    "description": "Exclusive Beta Invite Rickroll",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {}
+}

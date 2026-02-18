@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exclusive Invite - Trivia Duel Alpha</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            background: #0f172a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            max-width: 400px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #38bdf8;
+        }
+
+        p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            background: #38bdf8;
+            color: #0f172a;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 15px -3px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            background: #7dd3fc;
+            box-shadow: 0 20px 25px -5px rgba(56, 189, 248, 0.4);
+        }
+
+        #rickroll-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: none;
+            z-index: 1000;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card" id="invite-card">
+        <h1>Private Beta Invite</h1>
+        <p>You have been invited to test the new <b>Trivia Duel: Warzone</b> alpha. Be the first to try out the new 3D
+            engine!</p>
+        <button class="btn" onclick="goToLoading()">JOIN PRIVATE ROOM</button>
+    </div>
+
+    <!-- FAKE LOADING SCREEN -->
+    <div class="card" id="loading-card" style="display: none;">
+        <h1 id="loading-text">Connecting to Server</h1>
+        <div
+            style="width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; margin: 2rem 0; overflow: hidden;">
+            <div id="progress-bar" style="width: 0%; height: 100%; background: #38bdf8; transition: width 0.3s ease;">
+            </div>
+        </div>
+        <p id="loading-subtext">Initializing 3D engine assets...</p>
+    </div>
+
+    <div id="rickroll-overlay">
+        <!-- Rickroll with autoplay=1. Browsers block sound unless user interact, which they did by clicking the button above! -->
+        <iframe id="rick-video" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+
+    <script>
+        const loadingSteps = [
+            { text: "Verifying Alpha Pass...", sub: "Authentication successful." },
+            { text: "Connecting to Battle Server...", sub: "IP: 142.250.190.46 found." },
+            { text: "Syncing Game Assets...", sub: "Downloading high-res textures (42MB)..." },
+            { text: "Optimizing 3D Renderer...", sub: "Checking GPU compatibility: OK." },
+            { text: "Finalizing Connection...", sub: "Almost there, stay focused." }
+        ];
+
+        function goToLoading() {
+            document.getElementById('invite-card').style.display = 'none';
+            document.getElementById('loading-card').style.display = 'block';
+
+            let step = 0;
+            const progressInterval = setInterval(() => {
+                const progress = (step / loadingSteps.length) * 100;
+                document.getElementById('progress-bar').style.width = progress + "%";
+
+                if (step < loadingSteps.length) {
+                    document.getElementById('loading-text').innerText = loadingSteps[step].text;
+                    document.getElementById('loading-subtext').innerText = loadingSteps[step].sub;
+                    step++;
+                } else {
+                    clearInterval(progressInterval);
+                    startPrank();
+                }
+            }, 1200); // 1.2 seconds per step for maximum suspense
+        }
+
+        function startPrank() {
+            document.getElementById('loading-card').style.display = 'none';
+            document.getElementById('rickroll-overlay').style.display = 'block';
+
+            // Set the video source on click to ensure autoplay-with-sound works
+            const videoUrl = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&controls=0&showinfo=0&autohide=1";
+            document.getElementById('rick-video').src = videoUrl;
+
+            // Fullscreen attempt for maximum effect
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            }
+        }
+    </script>
+</body>
+
+</html>
