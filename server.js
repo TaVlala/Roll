@@ -6,6 +6,18 @@ const PORT = process.env.PORT || 3002;
 const FILE_PATH = path.join(__dirname, 'index.html');
 
 const server = http.createServer((req, res) => {
+    if (req.url === '/preview.png') {
+        fs.readFile(path.join(__dirname, 'preview.png'), (err, data) => {
+            if (err) {
+                res.writeHead(404);
+                return res.end();
+            }
+            res.writeHead(200, { 'Content-Type': 'image/png' });
+            res.end(data);
+        });
+        return;
+    }
+
     fs.readFile(FILE_PATH, (err, data) => {
         if (err) {
             res.writeHead(500);
